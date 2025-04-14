@@ -12,14 +12,20 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
     private static final String LOG_TAG = MainActivity.class.getName();
+
+    private FirebaseAuth mAuth;
 
     private TextInputEditText usernameEditText;
     private TextInputEditText passwordEditText;
     private Button loginButton;
     private TextView registerTextView;
+
+    private static final String TAG = "MainActivity"; // Log tag
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
         passwordEditText = findViewById(R.id.editTextUserPassword);
         loginButton = findViewById(R.id.loginButton);
         registerTextView = findViewById(R.id.registerTextView);
+
+        mAuth = FirebaseAuth.getInstance();
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,26 +56,40 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void login() {
-        String username = usernameEditText.getText().toString().trim();
+        String email = usernameEditText.getText().toString().trim();  // Use email, not username
         String password = passwordEditText.getText().toString().trim();
 
-        Log.i(LOG_TAG, "Attempting login with: " + username + ", password: " + password);
+        Log.i(LOG_TAG, "Attempting login with: " + email + ", password: " + password);
 
-        //  ** Replace this with your actual authentication logic **
-        if (username.equals("admin") && password.equals("password")) {
-            // Successful login:
-            Log.i(LOG_TAG, "Login successful");
-            // Example: navigate to the main app screen
-            // startActivity(new Intent(this, HomeScreenActivity.class));  // Replace with your actual main activity
-            Toast.makeText(this, "Login Successful!", Toast.LENGTH_SHORT).show();
-            finish(); // Close the login activity (if appropriate for your app flow)
-
-        } else {
-            // Login failed:
-            Log.i(LOG_TAG, "Login failed");
-            Snackbar.make(findViewById(R.id.main), "Invalid username or password.", Snackbar.LENGTH_SHORT).show();
-            // Optional: Clear the password field after a failed attempt
-            passwordEditText.setText("");
+        if (email.isEmpty() || password.isEmpty()) {
+            Snackbar.make(findViewById(R.id.main), "Please enter both email and password.", Snackbar.LENGTH_SHORT).show();
+            return;
         }
+
+        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, task -> {
+            if (task.isSuccessful()) {
+                // Sign in success, update UI with the signed-in user's information
+                Log.d(LOG_TAG, "signInWithEmail:success");
+                FirebaseUser user = mAuth.getCurrentUser();
+                Toast.makeText(this, "Login Successful!", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(MainActivity.this, HomeScreenActivity.class)); // Replace with your actual main activity
+                finish();
+            } else {
+                // If sign in fails, display a message to the user.
+                Log.w(LOG_TAG, "signInWithEmail:failure", task.getException());
+                String errorMessage = "Authentication failed.";
+                if (task.getException() != null) {
+                    errorMessage = task.getException().getMessage(); // Get Firebase's error message
+                }
+                Snackbar.make(findViewById(R.id.main), errorMessage, Snackbar.LENGTH_LONG).show();
+                passwordEditText.setText(""); // Clear password on failure
+            }
+        });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.d(TAG, "Showing login UI on startup.");
     }
 }

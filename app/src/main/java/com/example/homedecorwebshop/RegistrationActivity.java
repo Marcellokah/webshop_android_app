@@ -7,10 +7,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class RegistrationActivity extends AppCompatActivity {
 
@@ -22,15 +29,29 @@ public class RegistrationActivity extends AppCompatActivity {
     private TextInputEditText confirmPasswordEditText;
     private Button registerButton;
 
+    private FirebaseAuth mAuth; // Firebase Authentication instance
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Initialize Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
+
         setContentView(R.layout.activity_registration);
 
-        emailEditText = findViewById(R.id.emailEditText);
-        usernameEditText = findViewById(R.id.usernameEditText);
-        passwordEditText = findViewById(R.id.passwordEditText);
-        confirmPasswordEditText = findViewById(R.id.confirmPasswordEditText);
+        TextInputLayout emailInputLayout = findViewById(R.id.emailInputLayout);
+        emailEditText = (TextInputEditText) emailInputLayout.getEditText();
+
+        TextInputLayout usernameInputLayout = findViewById(R.id.usernameInputLayout);
+        usernameEditText = (TextInputEditText) usernameInputLayout.getEditText(); // Keeping this for now, you can decide later how to use it
+
+        TextInputLayout passwordInputLayout = findViewById(R.id.passwordInputLayout);
+        passwordEditText = (TextInputEditText) passwordInputLayout.getEditText();
+
+        TextInputLayout confirmPasswordInputLayout = findViewById(R.id.confirmPasswordInputLayout);
+        confirmPasswordEditText = (TextInputEditText) confirmPasswordInputLayout.getEditText();
+
         registerButton = findViewById(R.id.registerButton);
 
         registerButton.setOnClickListener(new View.OnClickListener() {
@@ -47,15 +68,13 @@ public class RegistrationActivity extends AppCompatActivity {
         String password = passwordEditText.getText().toString().trim();
         String confirmPassword = confirmPasswordEditText.getText().toString().trim();
 
-        Log.i(LOG_TAG, "Attempting registration with: " + email + ", " + username);
+        Log.i(LOG_TAG, "Attempting registration with: " + email); // Removed username from log
 
-        // Basic input validation
-        if (!isValidEmail(email) || username.isEmpty() || password.isEmpty() || !password.equals(confirmPassword)) {
+        // Basic input validation (as before)
+        if (!isValidEmail(email) || password.isEmpty() || !password.equals(confirmPassword)) {
             String errorMessage = "Invalid input. Please check your fields.";
             if (!isValidEmail(email)) {
                 errorMessage = "Invalid email address.";
-            } else if (username.isEmpty()) {
-                errorMessage = "Username cannot be empty.";
             } else if (password.isEmpty()) {
                 errorMessage = "Password cannot be empty.";
             } else if (!password.equals(confirmPassword)) {
@@ -65,23 +84,28 @@ public class RegistrationActivity extends AppCompatActivity {
             return; // Stop registration if validation fails
         }
 
-        // **  Replace this with your actual registration logic (e.g., sending data to a server) **
-        // For this example, we'll just log a success message and show a toast.
-        // In a real app, you'd likely use Retrofit or Volley to make an API call.
+        // ** Firebase Registration **
+        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    // Registration success
+                    Log.d(LOG_TAG, "createUserWithEmail:success");
+                    FirebaseUser user = mAuth.getCurrentUser();
 
-        Log.i(LOG_TAG, "Registration successful (placeholder - implement real logic!)");
-        Toast.makeText(this, "Registration successful!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegistrationActivity.this, "Registration Successful!", Toast.LENGTH_SHORT).show();
+                    finish(); // Go back to the login activity.
 
-        // After successful registration, you might:
-        // 1. Navigate to the login screen (and finish this activity)
-        //    finish(); // Close the registration activity
-        // 2. Or, automatically log the user in and go to the main screen:
-        //    startActivity(new Intent(this, HomeScreenActivity.class));  // Replace with your main activity
-        //    finish();
-
+                } else {
+                    // Registration failed
+                    Log.w(LOG_TAG, "createUserWithEmail:failure", task.getException());
+                    String errorMessage = "Registration failed: " + task.getException().getMessage();
+                    Snackbar.make(findViewById(R.id.main), errorMessage, Snackbar.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
-    // Basic email validation (you might want a more robust check)
     private boolean isValidEmail(String email) {
         return Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
