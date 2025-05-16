@@ -1,52 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
+    tools:context=".HomeScreenActivity">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
-        <TextView
-            android:id="@+id/welcomeTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Welcome to Our Home Decor Shop!"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="16dp"/>
-
-        <TextView
-            android:id="@+id/exploreTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Explore our curated collection of home decor items to beautify your living space."
-            android:textSize="16sp"
-            android:layout_marginBottom="24dp"/>
-
-        <!-- Container for dynamically added items -->
         <LinearLayout
-            android:id="@+id/itemsContainerLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginBottom="24dp">
-            <!-- Item TextViews will be added here by HomeScreenActivity.java -->
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/welcomeTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="16dp"
+                android:text="Welcome to Our Home Decor Shop!"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/exploreTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:text="Explore our curated collection of home decor items to beautify your living space."
+                android:textSize="16sp" />
+
+            <LinearLayout
+                android:id="@+id/itemsContainerLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:orientation="vertical">
+                <!-- Item Views will be added here by HomeScreenActivity.java -->
+            </LinearLayout>
+
+            <!-- This Button is now less relevant if you have a FAB for cart,
+                 but you can keep it or repurpose it -->
+            <Button
+                android:id="@+id/shopNowButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:paddingHorizontal="32dp"
+                android:paddingVertical="12dp"
+                android:text="Shop All Products"
+                android:textSize="18sp"
+                android:visibility="gone"/> <!-- Example: Hide it if FAB is primary -->
+
         </LinearLayout>
+    </ScrollView>
 
-        <Button
-            android:id="@+id/shopNowButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Shop All Products"
-            android:layout_gravity="center_horizontal"
-            android:paddingHorizontal="32dp"
-            android:paddingVertical="12dp"
-            android:textSize="18sp"/>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_cart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:contentDescription="View Cart"
+        app:srcCompat="@drawable/ic_shopping_cart" /> <!-- Make sure you have this icon -->
 
-    </LinearLayout>
-</ScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
