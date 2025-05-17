@@ -3,12 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_filter"
-        android:icon="@drawable/ic_filter_list"
-    android:title="@string/action_filter_title"
-    app:showAsAction="ifRoom" />
-
-    <item
         android:id="@+id/action_logout"
         android:icon="@drawable/ic_logout"
     android:title="@string/action_logout_title"

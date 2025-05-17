@@ -31,40 +31,27 @@ public class HomeScreenActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home_screen); // Ensure this layout has the FAB
+        setContentView(R.layout.activity_home_screen);
 
-        // --- Toolbar Setup ---
         Toolbar toolbar = findViewById(R.id.toolbar_home);
-        setSupportActionBar(toolbar); // Set the Toolbar as the ActionBar
-        // Optional: if you want to remove the default title set by the label and set it yourself
-        // if (getSupportActionBar() != null) {
-        //     getSupportActionBar().setTitle("Home Decor");
-        // }
+        setSupportActionBar(toolbar);
 
-        mAuth = FirebaseAuth.getInstance(); // Initialize Firebase Auth
-
-        // ... rest of your existing onCreate() code for itemsContainer, cartManager, FAB ...
-
-        // If you are implementing filtering now:
-        // allItems = createSampleItems(); // Load all items once
-        // currentlyDisplayedItems = new ArrayList<>(allItems); // Initially display all items
-        // displayItems(currentlyDisplayedItems); // Display the initial list
-        // else, continue with your existing item loading:
-        // List<Item> sampleItems = createSampleItems();
-        // displayItems(sampleItems);
+        mAuth = FirebaseAuth.getInstance();
 
         itemsContainer = findViewById(R.id.itemsContainerLayout);
         cartManager = CartManager.getInstance();
+        fabCart = findViewById(R.id.fab_cart);
 
-        // Initialize FAB (Make sure you add this FAB to your activity_home_screen.xml)
-        fabCart = findViewById(R.id.fab_cart); // Assuming your FAB has id fab_cart
-        fabCart.setOnClickListener(v -> {
-            startActivity(new Intent(HomeScreenActivity.this, CartActivity.class));
-        });
+        if (fabCart != null) {
+            fabCart.setOnClickListener(v -> {
+                startActivity(new Intent(HomeScreenActivity.this, CartActivity.class));
+            });
+        }
 
         List<Item> sampleItems = createSampleItems();
         displayItems(sampleItems);
-        updateCartFabVisibility(); // Initial check for FAB visibility
+
+        updateCartFabVisibility();
     }
 
     @Override
@@ -160,39 +147,22 @@ public class HomeScreenActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId(); // Get the ID of the selected menu item
+        int id = item.getItemId();
 
-        if (id == R.id.action_filter) {
-            Toast.makeText(this, "Filter clicked (implement dialog next)", Toast.LENGTH_SHORT).show();
-            // showFilterDialog(); // You will call your filter dialog method here
-            return true; // Return true to indicate the event was handled
-        } else if (id == R.id.action_logout) {
-            logoutUser(); // Call your logout method
-            return true; // Return true to indicate the event was handled
+        // The 'if (id == R.id.action_filter)' block has been removed
+        if (id == R.id.action_logout) {
+            logoutUser();
+            return true;
         }
-        return super.onOptionsItemSelected(item); // Important for handling other menu items if any
+        return super.onOptionsItemSelected(item);
     }
 
     private void logoutUser() {
         mAuth.signOut(); // Sign out from Firebase
         Toast.makeText(HomeScreenActivity.this, "Logged out", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(HomeScreenActivity.this, MainActivity.class); // Navigate to your Login/Main activity
-        // Clear the activity stack so the user can't go back to HomeScreen after logout
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish(); // Finish HomeScreenActivity
     }
-
-    // private void showFilterDialog() {
-    //     // Implementation for showing the filter dialog will go here
-    // }
-
-    // private void applyFilters() {
-    //    // Implementation for applying filters to 'allItems' and updating 'currentlyDisplayedItems'
-    //    // displayItems(currentlyDisplayedItems); // Then refresh the display
-    // }
-
-    // private void clearFilters() {
-    //    // Implementation for clearing all filter criteria
-    // }
 }
