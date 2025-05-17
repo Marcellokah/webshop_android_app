@@ -38,6 +38,8 @@ dependencies {
     implementation libs.play.services.tasks
     implementation libs.firebase.auth
     implementation libs.annotation
+    implementation libs.core.animation
+    implementation libs.media3.common
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core

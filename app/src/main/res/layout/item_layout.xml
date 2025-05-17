@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/margin_small"
+    android:layout_marginTop="@dimen/margin_small"
+    android:layout_marginEnd="@dimen/margin_small"
+    android:layout_marginBottom="@dimen/margin_medium"
+    app:cardCornerRadius="@dimen/card_corner_radius"
+    app:cardElevation="@dimen/card_elevation"
+    app:cardUseCompatPadding="false">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/itemImageView"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/card_image_height"
+            android:contentDescription="@string/item_image_desc"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
+        <!-- THIS IS THE MISSING/CORRECTED TEXTVIEW -->
+        <TextView
+            android:id="@+id/itemNameTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_medium"
+            android:layout_marginTop="@dimen/margin_small"
+            android:layout_marginEnd="@dimen/padding_medium"
+            android:textAppearance="?attr/textAppearanceHeadline6"
+            android:textSize="@dimen/text_size_title_card"
+            android:maxLines="2"
+            android:ellipsize="end"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/itemImageView"
+            tools:text="Elegant Ceramic Vase" />
+
+        <TextView
+            android:id="@+id/itemPriceTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_medium"
+            android:layout_marginTop="@dimen/margin_small"
+            android:textAppearance="?attr/textAppearanceSubtitle1"
+            android:textColor="?attr/colorSecondary"
+            android:textSize="@dimen/text_size_price_card"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/itemNameTextView"
+        tools:text="HUF 12,000" />
+
+        <TextView
+            android:id="@+id/itemStockTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_small"
+            android:layout_marginEnd="@dimen/padding_medium"
+            android:textAppearance="?attr/textAppearanceCaption"
+            android:textSize="@dimen/text_size_stock_card"
+            android:textStyle="italic"
+            app:layout_constraintBaseline_toBaselineOf="@id/itemPriceTextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/itemNameTextView"
+        tools:text="In Stock" />
+
+        <TextView
+            android:id="@+id/itemDescriptionTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_medium"
+            android:layout_marginTop="@dimen/margin_small"
+            android:layout_marginEnd="@dimen/padding_medium"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:textAppearance="?attr/textAppearanceBody2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/itemPriceTextView"
+            tools:text="A beautifully handcrafted ceramic vase, perfect for minimalist home decor. Adds a touch of elegance to any room." />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnAddToCart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginEnd="@dimen/padding_medium"
+            android:layout_marginBottom="@dimen/padding_medium"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:paddingStart="12dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="12dp"
+            android:paddingBottom="8dp"
+            android:text="@string/add_to_cart"
+        app:icon="@drawable/ic_add_shopping_cart"
+        app:iconGravity="textStart"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/itemDescriptionTextView" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnViewDetails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_medium"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:paddingStart="12dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="12dp"
+            android:paddingBottom="8dp"
+            android:text="@string/view_details"
+        app:layout_constraintBottom_toBottomOf="@id/btnAddToCart"
+        app:layout_constraintEnd_toStartOf="@id/btnAddToCart"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/btnAddToCart" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

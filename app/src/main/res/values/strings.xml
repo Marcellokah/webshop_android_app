@@ -7,4 +7,12 @@
     <string name="confirm_password">Confirm Password</string>
     <string name="register">Register</string>
     <string name="action_logout_title">Logout</string>
+    <string name="item_image_desc">Image of the item</string>
+    <string name="add_to_cart">Add to cart</string>
+    <string name="view_details">View details</string>
+    <string name="in_stock">In Stock</string>
+    <string name="out_of_stock">Out of Stock</string>
+    <string name="out_of_stock_button">Out of Stock</string>
+    <string name="added_to_cart_toast">added to your cart!</string>
+    <string name="viewing_details_for">Viewing details for</string>
 </resources>

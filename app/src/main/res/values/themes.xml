@@ -11,7 +11,8 @@
         <item name="colorSecondaryVariant">@color/olive_secondary_dark</item>
         <item name="colorOnSecondary">@color/white_on_secondary</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item> <!-- Use tools:targetApi for attributes like statusBarColor -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant
+        </item> <!-- Use tools:targetApi for attributes like statusBarColor -->
         <!-- Background and Surface colors -->
         <item name="android:colorBackground">@color/cream_background</item>
         <item name="colorSurface">@color/white_surface</item>
@@ -49,7 +50,8 @@
 
     <style name="TextAppearance.App.Subtitle1" parent="TextAppearance.MaterialComponents.Subtitle1">
         <!-- <item name="fontFamily">@font/your_chosen_medium_font</item> --> <!-- Example -->
-        <item name="android:textColor">?attr/colorOnSurface</item> <!-- Often on surface components like cards -->
+        <item name="android:textColor">?attr/colorOnSurface
+        </item> <!-- Often on surface components like cards -->
     </style>
 
     <style name="TextAppearance.App.Body1" parent="TextAppearance.MaterialComponents.Body1">
@@ -65,7 +67,8 @@
 
     <!-- Custom Component Styles -->
     <style name="Widget.App.Button" parent="Widget.MaterialComponents.Button">
-        <item name="android:textAllCaps">false</item> <!-- Common request to not have all-caps buttons -->
+        <item name="android:textAllCaps">false
+        </item> <!-- Common request to not have all-caps buttons -->
         <!-- <item name="fontFamily">@font/your_chosen_button_font</item> -->
         <item name="cornerRadius">20dp</item> <!-- More rounded corners -->
         <item name="android:paddingTop">12dp</item>

@@ -34,4 +34,6 @@
     <color name="light_text_on_dark_background_night">#E0E0E0</color> <!-- Off-white text for readability -->
     <color name="light_text_on_dark_surface_night">#D6D6D6</color> <!-- Slightly different off-white for onSurface -->
     <color name="medium_emphasis_text_night">#A0A0A0</color>
+ <!-- Example Olive Green -->
+    <!-- <color name="soft_red_error">#FF6347</color> -->
 </resources>

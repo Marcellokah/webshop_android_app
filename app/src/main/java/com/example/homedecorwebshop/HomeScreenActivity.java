@@ -1,51 +1,81 @@
-// src/main/java/com/example/homedecorwebshop/HomeScreenActivity.java
 package com.example.homedecorwebshop;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.util.Log;
+
 import androidx.appcompat.app.AppCompatActivity;
-import com.google.android.material.floatingactionbutton.FloatingActionButton; // Import FAB
+
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.ArrayList;
 import java.util.List;
-import android.view.Menu;    // Import Menu
-import android.view.MenuItem; // Import MenuItem
+import java.util.Locale;
+
+import android.view.Menu;
+import android.view.MenuItem;
+
 import androidx.annotation.NonNull; // Import NonNull
 import androidx.appcompat.widget.Toolbar; // Import Toolbar
+import androidx.core.content.ContextCompat;
+
 import com.google.firebase.auth.FirebaseAuth; // For Logout (if you use Firebase Auth)
-// Add other imports as needed for your filter dialog later, like AlertDialog, LayoutInflater, EditText etc.
 
 public class HomeScreenActivity extends AppCompatActivity {
 
     private LinearLayout itemsContainer;
     private CartManager cartManager;
-    private FloatingActionButton fabCart; // Reference to the FAB
+    private FloatingActionButton fabCart;
     private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
+        Log.d("HomeScreenActivity", "onCreate started");
 
         Toolbar toolbar = findViewById(R.id.toolbar_home);
         setSupportActionBar(toolbar);
+        Log.d("HomeScreenActivity", "Toolbar set");
 
         mAuth = FirebaseAuth.getInstance();
 
         itemsContainer = findViewById(R.id.itemsContainerLayout);
-        cartManager = CartManager.getInstance();
-        fabCart = findViewById(R.id.fab_cart);
+        if (itemsContainer == null) {
+            Log.e("HomeScreenActivity", "itemsContainer is NULL!");
+            // You could even throw an exception here to make it obvious during testing
+            // throw new RuntimeException("itemsContainerLayout not found in activity_home_screen.xml");
+        } else {
+            Log.d("HomeScreenActivity", "itemsContainer found");
+        }
 
-        if (fabCart != null) {
-            fabCart.setOnClickListener(v -> {
-                startActivity(new Intent(HomeScreenActivity.this, CartActivity.class));
-            });
+        cartManager = CartManager.getInstance();
+
+        fabCart = findViewById(R.id.fab_cart);
+        if (fabCart == null) {
+            Log.e("HomeScreenActivity", "fabCart is NULL!");
+        } else {
+            Log.d("HomeScreenActivity", "fabCart found");
+            // FAB Entrance Animation (and click listener)
+            fabCart.setScaleX(0f);
+            fabCart.setScaleY(0f);
+            fabCart.animate()
+                    .scaleX(1f)
+                    .scaleY(1f)
+                    .setDuration(300)
+                    .setStartDelay(500)
+                    .setInterpolator(new android.view.animation.OvershootInterpolator()) // Ensure this import is android.view.animation.OvershootInterpolator
+                    .start();
+            fabCart.setOnClickListener(v -> startActivity(new Intent(HomeScreenActivity.this, CartActivity.class)));
         }
 
         List<Item> sampleItems = createSampleItems();
@@ -70,64 +100,101 @@ public class HomeScreenActivity extends AppCompatActivity {
     }
 
     private void displayItems(List<Item> items) {
-        if (itemsContainer == null) return;
+        Log.d("HomeScreenActivity", "Entering displayItems");
+        if (itemsContainer == null) {
+            Log.e("HomeScreenActivity", "displayItems: itemsContainer is null!");
+            Toast.makeText(this, "Error displaying items. Container not found.", Toast.LENGTH_LONG).show();
+            return;
+        }
         itemsContainer.removeAllViews();
 
-        for (Item item : items) {
-            LinearLayout itemLayout = new LinearLayout(this);
-            itemLayout.setOrientation(LinearLayout.VERTICAL);
-            itemLayout.setPadding(0, 0, 0, 24); // Increased padding
+        if (items == null || items.isEmpty()) {
+            Log.d("HomeScreenActivity", "displayItems: No items to display.");
+            // ... (your no items message code) ...
+            return;
+        }
+        Log.d("HomeScreenActivity", "displayItems: Number of items: " + items.size());
 
-            ImageView itemImageView = new ImageView(this);
-            itemImageView.setImageResource(item.getImageResourceId());
-            LinearLayout.LayoutParams imageParams = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    200 // Fixed height in pixels (consider using dp)
-            );
-            imageParams.gravity = Gravity.CENTER_HORIZONTAL;
-            imageParams.setMargins(0, 0, 0, 8);
-            itemImageView.setLayoutParams(imageParams);
-            itemImageView.setAdjustViewBounds(true);
-            itemImageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE); // Or CENTER_CROP
+        LayoutInflater inflater = LayoutInflater.from(this);
 
-            TextView itemTextView = new TextView(this);
-            String itemDetails = item.getName() + "\n" +
-                    "Price: " + item.getValue() + " HUF\n" +
-                    (item.isInStock() ? "In Stock" : "Out of Stock") + "\n" +
-                    "Description: " + item.getDescription();
-            itemTextView.setText(itemDetails);
-            itemTextView.setTextSize(16f);
-            itemTextView.setPadding(8,0,8,8);
+        for (int i = 0; i < items.size(); i++) {
+            Item item = items.get(i);
+            Log.d("HomeScreenActivity", "Processing item: " + item.getName());
 
-
-            Button addToCartButton = new Button(this);
-            addToCartButton.setText("Add to Cart");
-            LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-            );
-            buttonParams.gravity = Gravity.END; // Align button to the right
-            buttonParams.setMargins(0, 8, 0, 0);
-            addToCartButton.setLayoutParams(buttonParams);
-
-            if (item.isInStock()) {
-                addToCartButton.setOnClickListener(v -> {
-                    cartManager.addItem(item);
-                    Toast.makeText(HomeScreenActivity.this,
-                            item.getName() + " has been added to your cart!",
-                            Toast.LENGTH_SHORT).show();
-                    updateCartFabVisibility(); // Update FAB after adding
-                });
-            } else {
-                addToCartButton.setText("Out of Stock");
-                addToCartButton.setEnabled(false);
+            View itemView = null;
+            try {
+                itemView = inflater.inflate(R.layout.item_layout, itemsContainer, false);
+                if (itemView == null) {
+                    Log.e("HomeScreenActivity", "itemView is NULL after inflation for item: " + item.getName());
+                    continue; // Skip this item
+                }
+            } catch (Exception e) {
+                Log.e("HomeScreenActivity", "Error inflating item_layout for " + item.getName(), e);
+                continue; // Skip this item
             }
 
-            itemLayout.addView(itemImageView);
-            itemLayout.addView(itemTextView);
-            itemLayout.addView(addToCartButton);
-            itemsContainer.addView(itemLayout);
+            // Find views by their IDs from item_layout.xml
+            ImageView itemImageView = itemView.findViewById(R.id.itemImageView);
+            TextView itemNameTextView = itemView.findViewById(R.id.itemNameTextView);
+            TextView itemPriceTextView = itemView.findViewById(R.id.itemPriceTextView);
+            TextView itemStockTextView = itemView.findViewById(R.id.itemStockTextView);         // Already found
+            TextView itemDescriptionTextView = itemView.findViewById(R.id.itemDescriptionTextView); // Already found
+            MaterialButton btnAddToCart = itemView.findViewById(R.id.btnAddToCart);
+            MaterialButton btnViewDetails = itemView.findViewById(R.id.btnViewDetails);
+
+            // Null checks for safety, though if your layout is correct, they should be found
+            if (itemImageView == null || itemNameTextView == null || itemPriceTextView == null ||
+                    itemStockTextView == null || itemDescriptionTextView == null || btnAddToCart == null) {
+                Log.e("HomeScreenActivity", "One or more views in item_layout are null for item: " + item.getName());
+                continue; // Skip this item if essential views are missing
+            }
+
+            // Set data from the Item object to the views
+            itemNameTextView.setText(item.getName());
+
+            String formattedPrice = String.format(Locale.getDefault(), "%,d HUF", item.getValue());
+            itemPriceTextView.setText(formattedPrice);
+
+            // Set description
+            itemDescriptionTextView.setText(item.getDescription()); // <-- ADDED THIS
+
+            itemImageView.setImageResource(item.getImageResourceId());
+
+            // Set stock status and "Add to Cart" button state
+            if (item.isInStock()) {
+                itemStockTextView.setText(getString(R.string.in_stock)); // <-- ADDED THIS
+                itemStockTextView.setTextColor(ContextCompat.getColor(this, R.color.olive_secondary)); // Example color
+                btnAddToCart.setText(getString(R.string.add_to_cart));
+                btnAddToCart.setEnabled(true);
+                btnAddToCart.setOnClickListener(v -> {
+                    cartManager.addItem(item);
+                    Toast.makeText(HomeScreenActivity.this,
+                            item.getName() + " " + getString(R.string.added_to_cart_toast), // Using string resource
+                            Toast.LENGTH_SHORT).show();
+                    updateCartFabVisibility();
+                });
+            } else {
+                itemStockTextView.setText(getString(R.string.out_of_stock)); // <-- ADDED THIS
+                itemStockTextView.setTextColor(ContextCompat.getColor(this, R.color.soft_red_error)); // Example color
+                btnAddToCart.setText(getString(R.string.out_of_stock_button));
+                btnAddToCart.setEnabled(false);
+            }
+
+            if (btnViewDetails != null) {
+                btnViewDetails.setOnClickListener(v -> Toast.makeText(HomeScreenActivity.this, getString(R.string.viewing_details_for) + " " + item.getName(), Toast.LENGTH_SHORT).show());
+            }
+
+            itemsContainer.addView(itemView);
+            Log.d("HomeScreenActivity", "Added itemView for: " + item.getName());
+
+            try {
+                Animation animation = AnimationUtils.loadAnimation(this, R.anim.item_slide_in_from_bottom);
+                itemView.startAnimation(animation);
+            } catch (Exception e) {
+                Log.e("HomeScreenActivity", "Error applying animation for " + item.getName(), e);
+            }
         }
+        Log.d("HomeScreenActivity", "Exiting displayItems");
     }
 
     private void updateCartFabVisibility() {
