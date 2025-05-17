@@ -21,13 +21,12 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/card_image_height"
             android:contentDescription="@string/item_image_desc"
-        android:scaleType="centerCrop"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/backgrounds/scenic" />
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
-        <!-- THIS IS THE MISSING/CORRECTED TEXTVIEW -->
         <TextView
             android:id="@+id/itemNameTextView"
             android:layout_width="0dp"
@@ -35,10 +34,10 @@
             android:layout_marginStart="@dimen/padding_medium"
             android:layout_marginTop="@dimen/margin_small"
             android:layout_marginEnd="@dimen/padding_medium"
+            android:ellipsize="end"
+            android:maxLines="2"
             android:textAppearance="?attr/textAppearanceHeadline6"
             android:textSize="@dimen/text_size_title_card"
-            android:maxLines="2"
-            android:ellipsize="end"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/itemImageView"
@@ -55,7 +54,7 @@
             android:textSize="@dimen/text_size_price_card"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/itemNameTextView"
-        tools:text="HUF 12,000" />
+            tools:text="HUF 12,000" />
 
         <TextView
             android:id="@+id/itemStockTextView"
@@ -69,7 +68,7 @@
             app:layout_constraintBaseline_toBaselineOf="@id/itemPriceTextView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/itemNameTextView"
-        tools:text="In Stock" />
+            tools:text="In Stock" />
 
         <TextView
             android:id="@+id/itemDescriptionTextView"
@@ -100,11 +99,11 @@
             android:paddingEnd="12dp"
             android:paddingBottom="8dp"
             android:text="@string/add_to_cart"
-        app:icon="@drawable/ic_add_shopping_cart"
-        app:iconGravity="textStart"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/itemDescriptionTextView" />
+            app:icon="@drawable/ic_add_shopping_cart"
+            app:iconGravity="textStart"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/itemDescriptionTextView" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnViewDetails"
@@ -118,12 +117,12 @@
             android:paddingEnd="12dp"
             android:paddingBottom="8dp"
             android:text="@string/view_details"
-        app:layout_constraintBottom_toBottomOf="@id/btnAddToCart"
-        app:layout_constraintEnd_toStartOf="@id/btnAddToCart"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/btnAddToCart" />
+            app:layout_constraintBottom_toBottomOf="@id/btnAddToCart"
+            app:layout_constraintEnd_toStartOf="@id/btnAddToCart"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/btnAddToCart" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

@@ -22,20 +22,18 @@ import com.google.firebase.auth.FirebaseUser;
 public class RegistrationActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = RegistrationActivity.class.getName();
-
     private TextInputEditText emailEditText;
     private TextInputEditText usernameEditText;
     private TextInputEditText passwordEditText;
     private TextInputEditText confirmPasswordEditText;
     private Button registerButton;
 
-    private FirebaseAuth mAuth; // Firebase Authentication instance
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
         setContentView(R.layout.activity_registration);
@@ -44,7 +42,7 @@ public class RegistrationActivity extends AppCompatActivity {
         emailEditText = (TextInputEditText) emailInputLayout.getEditText();
 
         TextInputLayout usernameInputLayout = findViewById(R.id.usernameInputLayout);
-        usernameEditText = (TextInputEditText) usernameInputLayout.getEditText(); // Keeping this for now, you can decide later how to use it
+        usernameEditText = (TextInputEditText) usernameInputLayout.getEditText();
 
         TextInputLayout passwordInputLayout = findViewById(R.id.passwordInputLayout);
         passwordEditText = (TextInputEditText) passwordInputLayout.getEditText();
@@ -68,9 +66,8 @@ public class RegistrationActivity extends AppCompatActivity {
         String password = passwordEditText.getText().toString().trim();
         String confirmPassword = confirmPasswordEditText.getText().toString().trim();
 
-        Log.i(LOG_TAG, "Attempting registration with: " + email); // Removed username from log
+        Log.i(LOG_TAG, "Attempting registration with: " + email);
 
-        // Basic input validation (as before)
         if (!isValidEmail(email) || password.isEmpty() || !password.equals(confirmPassword)) {
             String errorMessage = "Invalid input. Please check your fields.";
             if (!isValidEmail(email)) {
@@ -81,23 +78,20 @@ public class RegistrationActivity extends AppCompatActivity {
                 errorMessage = "Passwords do not match.";
             }
             Snackbar.make(findViewById(R.id.main), errorMessage, Snackbar.LENGTH_SHORT).show();
-            return; // Stop registration if validation fails
+            return;
         }
 
-        // ** Firebase Registration **
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    // Registration success
                     Log.d(LOG_TAG, "createUserWithEmail:success");
                     FirebaseUser user = mAuth.getCurrentUser();
 
                     Toast.makeText(RegistrationActivity.this, "Registration Successful!", Toast.LENGTH_SHORT).show();
-                    finish(); // Go back to the login activity.
+                    finish();
 
                 } else {
-                    // Registration failed
                     Log.w(LOG_TAG, "createUserWithEmail:failure", task.getException());
                     String errorMessage = "Registration failed: " + task.getException().getMessage();
                     Snackbar.make(findViewById(R.id.main), errorMessage, Snackbar.LENGTH_LONG).show();

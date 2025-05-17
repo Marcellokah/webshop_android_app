@@ -16,14 +16,14 @@
             android:id="@+id/registrationTitleTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:gravity="center"
             android:text="Create an Account"
             android:textSize="24sp"
             android:textStyle="bold"
-            android:gravity="center"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="32dp" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/emailInputLayout"
@@ -31,9 +31,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:hint="@string/email"
-            app:layout_constraintTop_toBottomOf="@+id/registrationTitleTextView"
+            app:hintTextColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/registrationTitleTextView">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/emailEditText"
@@ -49,9 +50,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:hint="@string/username"
-            app:layout_constraintTop_toBottomOf="@+id/emailInputLayout"
+            app:hintTextColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/emailInputLayout">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/usernameEditText"
@@ -67,9 +69,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:hint="@string/password"
-            app:layout_constraintTop_toBottomOf="@+id/usernameInputLayout"
-            app:layout_constraintStart_toStartOf="parent"
+            app:hintTextColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/usernameInputLayout"
             app:passwordToggleEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -86,9 +89,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:hint="@string/confirm_password"
-            app:layout_constraintTop_toBottomOf="@+id/passwordInputLayout"
-            app:layout_constraintStart_toStartOf="parent"
+            app:hintTextColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/passwordInputLayout"
             app:passwordToggleEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -105,9 +109,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:text="@string/register"
-            app:layout_constraintTop_toBottomOf="@+id/confirmPasswordInputLayout"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/confirmPasswordInputLayout" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

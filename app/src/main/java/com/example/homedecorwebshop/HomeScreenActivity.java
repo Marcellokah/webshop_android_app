@@ -24,11 +24,11 @@ import java.util.Locale;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import androidx.annotation.NonNull; // Import NonNull
-import androidx.appcompat.widget.Toolbar; // Import Toolbar
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
-import com.google.firebase.auth.FirebaseAuth; // For Logout (if you use Firebase Auth)
+import com.google.firebase.auth.FirebaseAuth;
 
 public class HomeScreenActivity extends AppCompatActivity {
 
@@ -52,8 +52,6 @@ public class HomeScreenActivity extends AppCompatActivity {
         itemsContainer = findViewById(R.id.itemsContainerLayout);
         if (itemsContainer == null) {
             Log.e("HomeScreenActivity", "itemsContainer is NULL!");
-            // You could even throw an exception here to make it obvious during testing
-            // throw new RuntimeException("itemsContainerLayout not found in activity_home_screen.xml");
         } else {
             Log.d("HomeScreenActivity", "itemsContainer found");
         }
@@ -65,16 +63,9 @@ public class HomeScreenActivity extends AppCompatActivity {
             Log.e("HomeScreenActivity", "fabCart is NULL!");
         } else {
             Log.d("HomeScreenActivity", "fabCart found");
-            // FAB Entrance Animation (and click listener)
             fabCart.setScaleX(0f);
             fabCart.setScaleY(0f);
-            fabCart.animate()
-                    .scaleX(1f)
-                    .scaleY(1f)
-                    .setDuration(300)
-                    .setStartDelay(500)
-                    .setInterpolator(new android.view.animation.OvershootInterpolator()) // Ensure this import is android.view.animation.OvershootInterpolator
-                    .start();
+            fabCart.animate().scaleX(1f).scaleY(1f).setDuration(300).setStartDelay(500).setInterpolator(new android.view.animation.OvershootInterpolator()).start();
             fabCart.setOnClickListener(v -> startActivity(new Intent(HomeScreenActivity.this, CartActivity.class)));
         }
 
@@ -87,7 +78,7 @@ public class HomeScreenActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        updateCartFabVisibility(); // Update when returning to this screen
+        updateCartFabVisibility();
     }
 
     private List<Item> createSampleItems() {
@@ -110,7 +101,6 @@ public class HomeScreenActivity extends AppCompatActivity {
 
         if (items == null || items.isEmpty()) {
             Log.d("HomeScreenActivity", "displayItems: No items to display.");
-            // ... (your no items message code) ...
             return;
         }
         Log.d("HomeScreenActivity", "displayItems: Number of items: " + items.size());
@@ -121,61 +111,53 @@ public class HomeScreenActivity extends AppCompatActivity {
             Item item = items.get(i);
             Log.d("HomeScreenActivity", "Processing item: " + item.getName());
 
-            View itemView = null;
+            View itemView;
             try {
                 itemView = inflater.inflate(R.layout.item_layout, itemsContainer, false);
                 if (itemView == null) {
                     Log.e("HomeScreenActivity", "itemView is NULL after inflation for item: " + item.getName());
-                    continue; // Skip this item
+                    continue;
                 }
             } catch (Exception e) {
                 Log.e("HomeScreenActivity", "Error inflating item_layout for " + item.getName(), e);
-                continue; // Skip this item
+                continue;
             }
 
-            // Find views by their IDs from item_layout.xml
             ImageView itemImageView = itemView.findViewById(R.id.itemImageView);
             TextView itemNameTextView = itemView.findViewById(R.id.itemNameTextView);
             TextView itemPriceTextView = itemView.findViewById(R.id.itemPriceTextView);
-            TextView itemStockTextView = itemView.findViewById(R.id.itemStockTextView);         // Already found
-            TextView itemDescriptionTextView = itemView.findViewById(R.id.itemDescriptionTextView); // Already found
+            TextView itemStockTextView = itemView.findViewById(R.id.itemStockTextView);
+            TextView itemDescriptionTextView = itemView.findViewById(R.id.itemDescriptionTextView);
             MaterialButton btnAddToCart = itemView.findViewById(R.id.btnAddToCart);
             MaterialButton btnViewDetails = itemView.findViewById(R.id.btnViewDetails);
 
-            // Null checks for safety, though if your layout is correct, they should be found
-            if (itemImageView == null || itemNameTextView == null || itemPriceTextView == null ||
-                    itemStockTextView == null || itemDescriptionTextView == null || btnAddToCart == null) {
+            if (itemImageView == null || itemNameTextView == null || itemPriceTextView == null || itemStockTextView == null || itemDescriptionTextView == null || btnAddToCart == null) {
                 Log.e("HomeScreenActivity", "One or more views in item_layout are null for item: " + item.getName());
-                continue; // Skip this item if essential views are missing
+                continue;
             }
 
-            // Set data from the Item object to the views
             itemNameTextView.setText(item.getName());
 
             String formattedPrice = String.format(Locale.getDefault(), "%,d HUF", item.getValue());
             itemPriceTextView.setText(formattedPrice);
 
-            // Set description
-            itemDescriptionTextView.setText(item.getDescription()); // <-- ADDED THIS
+            itemDescriptionTextView.setText(item.getDescription());
 
             itemImageView.setImageResource(item.getImageResourceId());
 
-            // Set stock status and "Add to Cart" button state
             if (item.isInStock()) {
-                itemStockTextView.setText(getString(R.string.in_stock)); // <-- ADDED THIS
-                itemStockTextView.setTextColor(ContextCompat.getColor(this, R.color.olive_secondary)); // Example color
+                itemStockTextView.setText(getString(R.string.in_stock));
+                itemStockTextView.setTextColor(ContextCompat.getColor(this, R.color.olive_secondary));
                 btnAddToCart.setText(getString(R.string.add_to_cart));
                 btnAddToCart.setEnabled(true);
                 btnAddToCart.setOnClickListener(v -> {
                     cartManager.addItem(item);
-                    Toast.makeText(HomeScreenActivity.this,
-                            item.getName() + " " + getString(R.string.added_to_cart_toast), // Using string resource
-                            Toast.LENGTH_SHORT).show();
+                    Toast.makeText(HomeScreenActivity.this, item.getName() + " " + getString(R.string.added_to_cart_toast), Toast.LENGTH_SHORT).show();
                     updateCartFabVisibility();
                 });
             } else {
-                itemStockTextView.setText(getString(R.string.out_of_stock)); // <-- ADDED THIS
-                itemStockTextView.setTextColor(ContextCompat.getColor(this, R.color.soft_red_error)); // Example color
+                itemStockTextView.setText(getString(R.string.out_of_stock));
+                itemStockTextView.setTextColor(ContextCompat.getColor(this, R.color.soft_red_error));
                 btnAddToCart.setText(getString(R.string.out_of_stock_button));
                 btnAddToCart.setEnabled(false);
             }
@@ -205,18 +187,16 @@ public class HomeScreenActivity extends AppCompatActivity {
         }
     }
 
-    // --- Menu Inflation and Handling ---
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.home_menu, menu); // Inflate your menu resource file
-        return true; // Return true so the menu is displayed
+        getMenuInflater().inflate(R.menu.home_menu, menu);
+        return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
 
-        // The 'if (id == R.id.action_filter)' block has been removed
         if (id == R.id.action_logout) {
             logoutUser();
             return true;
@@ -225,11 +205,11 @@ public class HomeScreenActivity extends AppCompatActivity {
     }
 
     private void logoutUser() {
-        mAuth.signOut(); // Sign out from Firebase
+        mAuth.signOut();
         Toast.makeText(HomeScreenActivity.this, "Logged out", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(HomeScreenActivity.this, MainActivity.class); // Navigate to your Login/Main activity
+        Intent intent = new Intent(HomeScreenActivity.this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
-        finish(); // Finish HomeScreenActivity
+        finish();
     }
 }

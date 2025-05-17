@@ -1,4 +1,4 @@
-package com.example.homedecorwebshop; // Use your app's package name
+package com.example.homedecorwebshop;
 
 import android.app.Application;
 import android.app.NotificationChannel;
@@ -17,11 +17,7 @@ public class MyApplication extends Application {
 
     private void createNotificationChannels() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel orderChannel = new NotificationChannel(
-                    ORDER_CONFIRMATION_CHANNEL_ID,
-                    "Order Confirmations",
-                    NotificationManager.IMPORTANCE_HIGH
-            );
+            NotificationChannel orderChannel = new NotificationChannel(ORDER_CONFIRMATION_CHANNEL_ID, "Order Confirmations", NotificationManager.IMPORTANCE_HIGH);
             orderChannel.setDescription("Notifications for confirmed orders");
 
             NotificationManager manager = getSystemService(NotificationManager.class);

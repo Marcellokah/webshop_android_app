@@ -12,8 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
-        app:titleTextColor="@android:color/black"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:titleTextColor="@android:color/black" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -27,42 +27,41 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="16dp">
-            <!-- Cart items will be dynamically added here -->
         </LinearLayout>
     </ScrollView>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#f0f0f0"
         android:orientation="vertical"
-        android:padding="16dp"
-        android:background="#f0f0f0">
+        android:padding="16dp">
 
         <TextView
             android:id="@+id/tvCartTotalItems"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:text="Total Items: 0"
             android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="8dp"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tvCartTotalPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
             android:text="Total Price: 0 HUF"
             android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="16dp"/>
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/btnProceedToCheckout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Proceed to Checkout"
-            android:textSize="18sp"
-            android:layout_marginBottom="8dp"/>
+            android:layout_marginBottom="8dp"
+            android:text="Checkout"
+            android:textSize="18sp" />
 
         <Button
             android:id="@+id/btnClearCart"

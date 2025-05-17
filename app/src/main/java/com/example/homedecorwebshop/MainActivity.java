@@ -17,15 +17,13 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
     private static final String LOG_TAG = MainActivity.class.getName();
-
     private FirebaseAuth mAuth;
-
     private TextInputEditText usernameEditText;
     private TextInputEditText passwordEditText;
     private Button loginButton;
     private TextView registerTextView;
 
-    private static final String TAG = "MainActivity"; // Log tag
+    private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,11 +50,10 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, RegistrationActivity.class));
             }
         });
-
     }
 
     private void login() {
-        String email = usernameEditText.getText().toString().trim();  // Use email, not username
+        String email = usernameEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
 
         Log.i(LOG_TAG, "Attempting login with: " + email + ", password: " + password);
@@ -68,21 +65,19 @@ public class MainActivity extends AppCompatActivity {
 
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, task -> {
             if (task.isSuccessful()) {
-                // Sign in success, update UI with the signed-in user's information
                 Log.d(LOG_TAG, "signInWithEmail:success");
                 FirebaseUser user = mAuth.getCurrentUser();
                 Toast.makeText(this, "Login Successful!", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(MainActivity.this, HomeScreenActivity.class)); // Replace with your actual main activity
+                startActivity(new Intent(MainActivity.this, HomeScreenActivity.class));
                 finish();
             } else {
-                // If sign in fails, display a message to the user.
                 Log.w(LOG_TAG, "signInWithEmail:failure", task.getException());
                 String errorMessage = "Authentication failed.";
                 if (task.getException() != null) {
-                    errorMessage = task.getException().getMessage(); // Get Firebase's error message
+                    errorMessage = task.getException().getMessage();
                 }
                 Snackbar.make(findViewById(R.id.main), errorMessage, Snackbar.LENGTH_LONG).show();
-                passwordEditText.setText(""); // Clear password on failure
+                passwordEditText.setText("");
             }
         });
     }

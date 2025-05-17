@@ -1,33 +1,29 @@
-<!-- res/values-night/themes.xml -->
 <resources>
     <!-- Base application theme for night mode. -->
-    <!-- You can either just use the DayNight parent and it will pick up dark defaults,
-         or you can specifically override colors here for a custom dark theme. -->
     <style name="Theme.HomedecorWebshop" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!-- Primary brand color (could be the same or adjusted for dark) -->
-        <item name="colorPrimary">@color/beige_primary</item> <!-- Or a darker primary if preferred -->
+        <!-- Primary brand color -->
+        <item name="colorPrimary">@color/beige_primary</item> <!-- Darker primary -->
         <item name="colorPrimaryVariant">@color/beige_primary_dark</item>
         <item name="colorOnPrimary">@color/dark_brown_on_primary</item>
-        <!-- Secondary brand color (could be the same or adjusted) -->
+        <!-- Secondary brand color -->
         <item name="colorSecondary">@color/olive_secondary</item>
         <item name="colorOnSecondary">@color/white_on_secondary</item>
 
-        <!-- Example: Darker background and surface for night mode -->
-        <item name="android:colorBackground">@color/dark_grey_background_night</item> <!-- Define in colors.xml -->
-        <item name="colorSurface">@color/dark_grey_surface_night</item>         <!-- Define in colors.xml -->
+        <!-- Darker background and surface for night mode -->
+        <item name="android:colorBackground">@color/dark_grey_background_night</item>
+        <item name="colorSurface">@color/dark_grey_surface_night</item>
 
-        <item name="colorOnBackground">@color/light_text_on_dark_background_night</item> <!-- Define in colors.xml -->
-        <item name="colorOnSurface">@color/light_text_on_dark_surface_night</item>   <!-- Define in colors.xml -->
+        <item name="colorOnBackground">@color/light_text_on_dark_background_night</item>
+        <item name="colorOnSurface">@color/light_text_on_dark_surface_night</item>
 
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item> <!-- Or ?attr/colorSurface for a more integrated look in dark mode -->
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
 
-        <!-- Error color (often kept the same, but ensure contrast) -->
+        <!-- Error color -->
         <item name="colorError">@color/soft_red_error</item>
         <item name="colorOnError">@color/white_on_error</item>
 
-        <!-- Link to the same text appearance and widget styles as the day theme,
-             unless you want different typography/widget styles for night mode. -->
+        <!-- Link to the same text appearance and widget styles as the day theme -->
         <item name="textAppearanceHeadline6">@style/TextAppearance.App.Headline6</item>
         <item name="textAppearanceSubtitle1">@style/TextAppearance.App.Subtitle1</item>
         <item name="textAppearanceBody1">@style/TextAppearance.App.Body1</item>

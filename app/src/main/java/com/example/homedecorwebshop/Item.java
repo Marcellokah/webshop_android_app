@@ -1,11 +1,10 @@
-// src/main/java/com/example/homedecorwebshop/Item.java
 package com.example.homedecorwebshop;
 
 import java.util.Objects;
 
 public class Item {
     private String name;
-    private int value; // Price in HUF
+    private int value;
     private boolean inStock;
     private int imageResourceId;
     private String description;
@@ -15,12 +14,12 @@ public class Item {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Item item = (Item) o;
-        return Objects.equals(name, item.name); // Assuming name is unique
+        return Objects.equals(name, item.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name); // Assuming name is unique
+        return Objects.hash(name);
     }
 
     public Item(String name, int value, boolean inStock, int imageResourceId, String description) {
@@ -31,21 +30,46 @@ public class Item {
         this.description = description;
     }
 
-    // Default constructor
     public Item() {
     }
 
-    // Getter methods
-    public String getName() { return name; }
-    public int getValue() { return value; }
-    public boolean isInStock() { return inStock; }
-    public int getImageResourceId() { return imageResourceId; }
-    public String getDescription() { return description; }
+    public String getName() {
+        return name;
+    }
 
-    // Setter methods
-    public void setName(String name) { this.name = name; }
-    public void setValue(int value) { this.value = value; }
-    public void setInStock(boolean inStock) { this.inStock = inStock; }
-    public void setImageResourceId(int imageResourceId) { this.imageResourceId = imageResourceId; }
-    public void setDescription(String description) { this.description = description; }
+    public int getValue() {
+        return value;
+    }
+
+    public boolean isInStock() {
+        return inStock;
+    }
+
+    public int getImageResourceId() {
+        return imageResourceId;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
+    }
+
+    public void setInStock(boolean inStock) {
+        this.inStock = inStock;
+    }
+
+    public void setImageResourceId(int imageResourceId) {
+        this.imageResourceId = imageResourceId;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

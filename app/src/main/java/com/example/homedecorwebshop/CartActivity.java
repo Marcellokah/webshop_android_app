@@ -1,4 +1,4 @@
-package com.example.homedecorwebshop; // Use your app's package name
+package com.example.homedecorwebshop;
 
 import android.Manifest;
 import android.app.PendingIntent;
@@ -16,7 +16,7 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar; // Assuming you still want a toolbar
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -30,14 +30,10 @@ public class CartActivity extends AppCompatActivity {
     private LinearLayout cartItemsContainer;
     private TextView tvTotalPrice;
     private TextView tvTotalItems;
-    private Button btnClearCart;
     private CartManager cartManager;
-    private static final String TAG = "CartActivityNotification"; // Changed tag for clarity
-    private static final int ORDER_CONFIRM_NOTIFICATION_ID = 102; // Unique ID
+    private static final String TAG = "CartActivityNotification";
+    private static final int ORDER_CONFIRM_NOTIFICATION_ID = 102;
 
-    private Button btnCheckout; // Variable name can be simpler
-
-    // Declare the launcher for permission request
     private final ActivityResultLauncher<String> requestPermissionLauncher =
             registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
                 if (isGranted) {
@@ -46,28 +42,24 @@ public class CartActivity extends AppCompatActivity {
                 } else {
                     Log.w(TAG, "Notification permission denied via launcher.");
                     Toast.makeText(this, "Notification permission denied. Cannot show order confirmation.", Toast.LENGTH_LONG).show();
-                    // No further action as per your request
                 }
             });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Assuming your layout is still named R.layout.activity_cart
-        // and it contains the button with ID R.id.btnProceedToCheckout
         setContentView(R.layout.activity_cart);
 
-        // Optional: Setup Toolbar if it's in your activity_cart.xml
-        Toolbar toolbar = findViewById(R.id.toolbar_cart); // Use ID from your activity_cart.xml
+        Toolbar toolbar = findViewById(R.id.toolbar_cart);
         if (toolbar != null) {
             setSupportActionBar(toolbar);
             if (getSupportActionBar() != null) {
                 getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                getSupportActionBar().setTitle("Cart"); // Or whatever title you prefer
+                getSupportActionBar().setTitle("Cart");
             }
         }
 
-        btnCheckout = findViewById(R.id.btnProceedToCheckout); // Using your existing ID
+        Button btnCheckout = findViewById(R.id.btnProceedToCheckout);
 
         btnCheckout.setOnClickListener(v -> {
             Log.d(TAG, "Checkout button clicked.");
@@ -77,14 +69,14 @@ public class CartActivity extends AppCompatActivity {
         cartItemsContainer = findViewById(R.id.cartItemsContainerLayout);
         tvTotalPrice = findViewById(R.id.tvCartTotalPrice);
         tvTotalItems = findViewById(R.id.tvCartTotalItems);
-        btnClearCart = findViewById(R.id.btnClearCart);
+        Button btnClearCart = findViewById(R.id.btnClearCart);
 
         cartManager = CartManager.getInstance();
 
         if (btnClearCart != null) {
             btnClearCart.setOnClickListener(v -> {
                 cartManager.clearCart();
-                displayCartItems(); // Refresh display
+                displayCartItems();
             });
         }
         displayCartItems();
@@ -117,7 +109,7 @@ public class CartActivity extends AppCompatActivity {
                 itemNameAndQuantity.setText(String.format(Locale.getDefault(), "%s (Qty: %d)", item.getName(), quantity));
                 itemNameAndQuantity.setTextSize(16f);
                 LinearLayout.LayoutParams textParams = new LinearLayout.LayoutParams(
-                        0, LinearLayout.LayoutParams.WRAP_CONTENT, 1.0f); // Weight for text
+                        0, LinearLayout.LayoutParams.WRAP_CONTENT, 1.0f);
                 itemNameAndQuantity.setLayoutParams(textParams);
 
                 TextView itemPrice = new TextView(this);
@@ -128,39 +120,32 @@ public class CartActivity extends AppCompatActivity {
                         LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                 itemPrice.setLayoutParams(priceParams);
 
-                // Optional: Add buttons to increase/decrease quantity or remove item
                 Button btnRemoveOne = new Button(this);
                 btnRemoveOne.setText("-");
                 btnRemoveOne.setOnClickListener(v -> {
                     cartManager.removeItem(item);
-                    displayCartItems(); // Refresh the cart display
+                    displayCartItems();
                 });
 
-                // Add more buttons or functionality as needed (e.g. remove all of one item)
-
                 itemRowLayout.addView(itemNameAndQuantity);
-                // Add +/- buttons before the price if you like
-                itemRowLayout.addView(btnRemoveOne); // Example of remove one button
+                itemRowLayout.addView(btnRemoveOne);
                 itemRowLayout.addView(itemPrice);
 
                 cartItemsContainer.addView(itemRowLayout);
             }
         }
-        // Update totals
         tvTotalItems.setText(String.format(Locale.getDefault(), "Total Items: %d", cartManager.getTotalItemCount()));
         tvTotalPrice.setText(String.format(Locale.getDefault(), "Total Price: %,.0f HUF", cartManager.getTotalPrice()));
     }
 
     private void attemptToSendSimpleNotification() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) { // Android 13+ (API 33)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) ==
                     PackageManager.PERMISSION_GRANTED) {
                 Log.d(TAG, "Notification permission already granted.");
                 sendOrderConfirmedNotification();
             } else if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
                 Log.d(TAG, "Showing notification permission rationale (though keeping it simple).");
-                // In a truly minimal version, we might just request directly.
-                // For slightly better UX, inform the user why if rationale should be shown.
                 Toast.makeText(this, "Notification permission is needed to show your order confirmation.", Toast.LENGTH_LONG).show();
                 requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
             } else {
@@ -168,7 +153,6 @@ public class CartActivity extends AppCompatActivity {
                 requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
             }
         } else {
-            // Pre-Android 13, permission is assumed to be granted at install time
             Log.d(TAG, "Pre-Android 13, proceeding to send notification.");
             sendOrderConfirmedNotification();
         }
@@ -177,52 +161,45 @@ public class CartActivity extends AppCompatActivity {
     private void sendOrderConfirmedNotification() {
         Log.d(TAG, "Preparing to send order confirmed notification.");
 
-        // Optional: Intent to open when notification is tapped
-        Intent intent = new Intent(this, HomeScreenActivity.class); // Or your main activity
+        Intent intent = new Intent(this, HomeScreenActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(
                 this,
-                0, // Request code
+                0,
                 intent,
                 PendingIntent.FLAG_IMMUTABLE
         );
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, MyApplication.ORDER_CONFIRMATION_CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_stat_order_confirmed) // << ENSURE this drawable exists in res/drawable
+                .setSmallIcon(R.drawable.ic_stat_order_confirmed)
                 .setContentTitle("Order Confirmed!")
                 .setContentText("Your order has been confirmed!")
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setContentIntent(pendingIntent) // Optional: what happens when tapped
-                .setAutoCancel(true); // Notification disappears when tapped
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true);
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
 
-        // Final permission check before sending (important!)
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED &&
                 Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             Log.w(TAG, "Permission check failed just before sending. User likely denied via dialog.");
-            // If already displayed a toast from the launcher callback, another might be redundant
-            // Toast.makeText(this, "Cannot show notification: Permission denied.", Toast.LENGTH_SHORT).show();
-            return; // Do not proceed to notify if permission is not granted
+            return;
         }
 
         try {
             notificationManager.notify(ORDER_CONFIRM_NOTIFICATION_ID, builder.build());
             Log.d(TAG, "Order confirmed notification sent successfully.");
-            Toast.makeText(this, "Order Confirmed! Notification Sent.", Toast.LENGTH_SHORT).show(); // Feedback to user
+            Toast.makeText(this, "Order Confirmed! Notification Sent.", Toast.LENGTH_SHORT).show();
         } catch (SecurityException e) {
             Log.e(TAG, "SecurityException while sending notification. This usually means permission is missing or revoked.", e);
             Toast.makeText(this, "Could not send notification due to a security setting.", Toast.LENGTH_LONG).show();
         }
-
-        // No further actions after sending notification as per your request.
     }
 
-    // Optional: Handle toolbar back button
     @Override
     public boolean onOptionsItemSelected(android.view.MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            finish(); // Or navigateUpFromSameTask(this);
+            finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
