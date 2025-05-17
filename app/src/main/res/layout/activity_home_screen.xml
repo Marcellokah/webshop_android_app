@@ -6,10 +6,29 @@
     android:layout_height="match_parent"
     tools:context=".HomeScreenActivity">
 
+    <!-- AppBarLayout provides a container for the Toolbar -->
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_home"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:title="@string/app_name" /> <!-- Or set title programmatically -->
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- Add app:layout_behavior to make ScrollView scroll under the AppBarLayout -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -17,13 +36,14 @@
             android:orientation="vertical"
             android:padding="16dp">
 
+            <!-- Your existing welcomeTextView, exploreTextView, itemsContainerLayout, etc. -->
             <TextView
                 android:id="@+id/welcomeTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="16dp"
-                android:text="Welcome to Our Home Decor Shop!"
+                android:text="Welcome to Home Decor!"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
@@ -44,19 +64,6 @@
                 <!-- Item Views will be added here by HomeScreenActivity.java -->
             </LinearLayout>
 
-            <!-- This Button is now less relevant if you have a FAB for cart,
-                 but you can keep it or repurpose it -->
-            <Button
-                android:id="@+id/shopNowButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:paddingHorizontal="32dp"
-                android:paddingVertical="12dp"
-                android:text="Shop All Products"
-                android:textSize="18sp"
-                android:visibility="gone"/> <!-- Example: Hide it if FAB is primary -->
-
         </LinearLayout>
     </ScrollView>
 
@@ -67,6 +74,6 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:contentDescription="View Cart"
-        app:srcCompat="@drawable/ic_shopping_cart" /> <!-- Make sure you have this icon -->
+        app:srcCompat="@drawable/ic_shopping_cart" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
