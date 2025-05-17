@@ -2,4 +2,36 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Your App Theme Colors -->
+    <color name="beige_primary">#F5F5DC</color>
+    <color name="beige_primary_dark">#E1E1C0</color>
+    <color name="olive_secondary">#808000</color>
+    <color name="olive_secondary_dark">#556B2F</color>
+    <color name="cream_background">#FFFAF0</color>
+    <color name="white_surface">#FFFFFF</color>
+    <color name="soft_red_error">#B00020</color>
+    <color name="dark_brown_on_primary">#4A403A</color>
+    <color name="white_on_secondary">#FFFFFF</color>
+    <color name="charcoal_on_background">#363636</color>
+    <color name="charcoal_on_surface">#363636</color>
+    <color name="white_on_error">#FFFFFF</color>
+
+    <!-- Default Material Colors (you might keep some of these or replace them) -->
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+
+    <!-- Night Mode Specific Colors -->
+    <color name="dark_grey_background_night">#121212</color> <!-- Common dark background -->
+    <color name="dark_grey_surface_night">#1E1E1E</color> <!-- Slightly lighter surface for dark mode -->
+    <color name="grey_primary_night">#A9A9A9</color> <!-- Example: A desaturated primary for night -->
+    <color name="grey_primary_dark_night">#808080</color> <!-- Darker variant for night -->
+    <color name="light_olive_secondary_night">#A0A040</color> <!-- Lighter secondary for better contrast on dark -->
+
+    <color name="light_text_on_dark_background_night">#E0E0E0</color> <!-- Off-white text for readability -->
+    <color name="light_text_on_dark_surface_night">#D6D6D6</color> <!-- Slightly different off-white for onSurface -->
+    <color name="medium_emphasis_text_night">#A0A0A0</color>
 </resources>

@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
-        app:titleTextColor="@android:color/white"
+        app:titleTextColor="@android:color/black"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
     <ScrollView
@@ -68,7 +68,6 @@
             android:id="@+id/btnClearCart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="?attr/materialButtonOutlinedStyle"
             android:text="Clear Cart" />
     </LinearLayout>
 

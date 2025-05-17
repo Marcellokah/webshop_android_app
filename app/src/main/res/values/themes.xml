@@ -1,9 +1,116 @@
+<!-- res/values/themes.xml -->
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.HomedecorWebshop" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    <style name="Theme.HomedecorWebshop" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/beige_primary</item>
+        <item name="colorPrimaryVariant">@color/beige_primary_dark</item>
+        <item name="colorOnPrimary">@color/dark_brown_on_primary</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/olive_secondary</item>
+        <item name="colorSecondaryVariant">@color/olive_secondary_dark</item>
+        <item name="colorOnSecondary">@color/white_on_secondary</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item> <!-- Use tools:targetApi for attributes like statusBarColor -->
+        <!-- Background and Surface colors -->
+        <item name="android:colorBackground">@color/cream_background</item>
+        <item name="colorSurface">@color/white_surface</item>
+        <item name="colorOnBackground">@color/charcoal_on_background</item>
+        <item name="colorOnSurface">@color/charcoal_on_surface</item>
+        <!-- Error color -->
+        <item name="colorError">@color/soft_red_error</item>
+        <item name="colorOnError">@color/white_on_error</item>
+
+        <!-- Customize your theme here. For example, default font families, text appearances -->
+        <!-- Optional: Add custom fonts. You would need to add font files to res/font directory -->
+        <!-- <item name="android:fontFamily">@font/your_chosen_regular_font</item> -->
+        <!-- <item name="fontFamily">@font/your_chosen_regular_font</item> --> <!-- For Material Components -->
+
+        <!-- Overriding default text appearances -->
+        <item name="textAppearanceHeadline6">@style/TextAppearance.App.Headline6</item>
+        <item name="textAppearanceSubtitle1">@style/TextAppearance.App.Subtitle1</item>
+        <item name="textAppearanceBody1">@style/TextAppearance.App.Body1</item>
+        <item name="textAppearanceButton">@style/TextAppearance.App.Button</item>
+
+        <!-- Overriding default component styles -->
+        <item name="materialButtonStyle">@style/Widget.App.Button</item>
+        <item name="toolbarStyle">@style/Widget.App.Toolbar</item>
+        <item name="floatingActionButtonStyle">@style/Widget.App.FloatingActionButton</item>
+        <!-- Add more component style overrides if needed for cards, text input layouts, etc. -->
+        <!-- e.g., <item name="materialCardViewStyle">@style/Widget.App.Card</item> -->
+        <!-- e.g., <item name="textInputStyle">@style/Widget.App.TextInputLayout</item> -->
     </style>
 
-    <style name="Theme.HomedecorWebshop" parent="Base.Theme.HomedecorWebshop" />
+    <!-- Custom Text Appearances -->
+    <style name="TextAppearance.App.Headline6" parent="TextAppearance.MaterialComponents.Headline6">
+        <!-- <item name="fontFamily">@font/your_chosen_bold_font</item> --> <!-- Example -->
+        <item name="android:textColor">?attr/colorOnBackground</item>
+    </style>
+
+    <style name="TextAppearance.App.Subtitle1" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <!-- <item name="fontFamily">@font/your_chosen_medium_font</item> --> <!-- Example -->
+        <item name="android:textColor">?attr/colorOnSurface</item> <!-- Often on surface components like cards -->
+    </style>
+
+    <style name="TextAppearance.App.Body1" parent="TextAppearance.MaterialComponents.Body1">
+        <!-- <item name="fontFamily">@font/your_chosen_regular_font</item> --> <!-- Example -->
+        <item name="android:textColor">?attr/colorOnBackground</item>
+        <item name="android:lineSpacingMultiplier">1.2</item>
+    </style>
+
+    <style name="TextAppearance.App.Button" parent="TextAppearance.MaterialComponents.Button">
+        <!-- <item name="fontFamily">@font/your_chosen_medium_font</item> --> <!-- Example -->
+        <item name="android:letterSpacing">0.025</item> <!-- Subtle letter spacing for buttons -->
+    </style>
+
+    <!-- Custom Component Styles -->
+    <style name="Widget.App.Button" parent="Widget.MaterialComponents.Button">
+        <item name="android:textAllCaps">false</item> <!-- Common request to not have all-caps buttons -->
+        <!-- <item name="fontFamily">@font/your_chosen_button_font</item> -->
+        <item name="cornerRadius">20dp</item> <!-- More rounded corners -->
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+    </style>
+
+    <style name="Widget.App.Toolbar" parent="Widget.MaterialComponents.Toolbar.PrimarySurface">
+        <!-- PrimarySurface makes it use colorPrimarySurface (or colorSurface if not defined) for background -->
+        <!-- and colorOnPrimarySurface (or colorOnSurface) for title/icons by default. -->
+        <!-- If you want it to use colorPrimary as background: -->
+        <!-- <item name="android:background">?attr/colorPrimary</item> -->
+        <!-- <item name="titleTextColor">?attr/colorOnPrimary</item> -->
+        <!-- <item name="subtitleTextColor">?attr/colorOnPrimary</item> -->
+    </style>
+
+    <style name="Widget.App.FloatingActionButton" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="backgroundTint">?attr/colorSecondary</item>
+        <item name="tint">?attr/colorOnSecondary</item> <!-- For the icon color -->
+    </style>
+
+    <!-- If you want a specific theme for Activities that DO use the ActionBar -->
+    <!-- This is if some activities use NoActionBar and others use the default ActionBar -->
+    <style name="Theme.HomedecorWebshop.WithActionBar" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/beige_primary</item>
+        <item name="colorPrimaryVariant">@color/beige_primary_dark</item>
+        <item name="colorOnPrimary">@color/dark_brown_on_primary</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/olive_secondary</item>
+        <item name="colorSecondaryVariant">@color/olive_secondary_dark</item>
+        <item name="colorOnSecondary">@color/white_on_secondary</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <!-- Background and Surface colors -->
+        <item name="android:colorBackground">@color/cream_background</item>
+        <item name="colorSurface">@color/white_surface</item>
+        <item name="colorOnBackground">@color/charcoal_on_background</item>
+        <item name="colorOnSurface">@color/charcoal_on_surface</item>
+        <!-- Error color -->
+        <item name="colorError">@color/soft_red_error</item>
+        <item name="colorOnError">@color/white_on_error</item>
+        <!-- Link other style overrides if necessary -->
+        <item name="textAppearanceHeadline6">@style/TextAppearance.App.Headline6</item>
+        <item name="textAppearanceSubtitle1">@style/TextAppearance.App.Subtitle1</item>
+        <!-- etc. -->
+    </style>
+
 </resources>
